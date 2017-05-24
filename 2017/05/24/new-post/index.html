@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>惰性函数定义 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  12345678910//举个例子let foo =">
+<meta property="og:type" content="article">
+<meta property="og:title" content="惰性函数定义">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/new-post/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  12345678910//举个例子let foo =">
+<meta property="og:updated_time" content="2017-05-24T02:48:31.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="惰性函数定义">
+<meta name="twitter:description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  12345678910//举个例子let foo =">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-new-post" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/24/new-post/" class="article-date">
+  <time datetime="2017-05-24T02:47:22.000Z" itemprop="datePublished">2017-05-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      惰性函数定义
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。</p>
+<p>但该模式有一些要注意的地方：</p>
+<ol>
+<li>原始函数上定义的属性在”惰性定义“过程之后会全部丢失</li>
+<li>如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//举个例子</span></div><div class="line"><span class="keyword">let</span> foo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'la'</span>);</div><div class="line">  foo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'lala'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">foo.la = <span class="string">"property"</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> bar = foo;</div></pre></td></tr></table></figure>
+<p>然后我们首先调用<code>bar()</code>再调用<code>foo()</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">bar(); <span class="comment">//la</span></div><div class="line">bar(); <span class="comment">//la</span></div><div class="line"><span class="built_in">console</span>.log(bar.la); <span class="comment">//property</span></div><div class="line"></div><div class="line">foo(); <span class="comment">//lala</span></div><div class="line"><span class="built_in">console</span>.log(foo.la); <span class="comment">//undefined</span></div></pre></td></tr></table></figure></p>
+<p>然后我们首先调用<code>foo()</code>再调用<code>bar()</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(bar === foo); <span class="comment">//true</span></div><div class="line">foo();  <span class="comment">//la</span></div><div class="line"><span class="built_in">console</span>.log(foo.la); <span class="comment">//undefined</span></div><div class="line">foo();  <span class="comment">//lala</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar === foo); <span class="comment">//false</span></div><div class="line">bar();  <span class="comment">//la</span></div><div class="line">bar();  <span class="comment">//la</span></div><div class="line"><span class="built_in">console</span>.log(bar.la); <span class="comment">//property</span></div></pre></td></tr></table></figure></p>
+<p>分析上面的例子我们可以知道，<code>bar()</code>内的函数指针指向<code>foo()</code>的原始函数，所以会一直执行原始函数部分，在执行原始函数的过程中又会不断地重写<code>foo()</code>的函数指针。反过来，<code>foo()</code>自身“惰性定义”并不会影响<code>bar()</code>的函数指针，所以导致了一些看似迷惑的现象。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/24/new-post/" data-id="cj32ea3up0000dkg6eotsycsb" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/05/24/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/05/24/new-post/">惰性函数定义</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/24/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
