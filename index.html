@@ -241,6 +241,122 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/30/mapDispatchToProps的简写（shorthand）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/30/mapDispatchToProps的简写（shorthand）/" itemprop="url">mapDispatchToProps的简写（shorthand）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-30T11:38:34+08:00">
+                2017-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="mapDispatchToProps的简写（shorthand）"><a href="#mapDispatchToProps的简写（shorthand）" class="headerlink" title="mapDispatchToProps的简写（shorthand）"></a>mapDispatchToProps的简写（shorthand）</h1><p><code>connect</code>支持两种类型的参数，第一种也是最常规的就是<code>matchDispatchToProps</code>function,第二种也就是shorthand写法接收的是一个<code>Object</code></p>
+<p>两者的区别在于，传递<code>matchDispatchToProps</code>function的时候处理dispatch和actionCreator之间逻辑的主动权在开发者的手里，而后者则是直接调用<code>bindActionCreators</code>自动使用dispatch包裹你的actionCreator。</p>
+<p>```javascript<br>// @Component TodoList, VisibleTodoList<br>// @Props onTodoClick<br>// @ActionCreator toggleTodo</p>
+<p>// 常规写法<br>const mapDispatchToProps = () =&gt; ({<br>    onTodoClick(id) {<br>        dispatch(toggleTodo(id))<br>    }<br>})<br>const VisibleTodoList = connect(<br>  mapStateToProps,<br>  mapDispatchToProps<br>)(TodoList);</p>
+<p>// shorthand写法<br>const VisibleTodoList = connect(<br>  mapStateToProps,<br>  {<br>    onTodoClick: toggleTodo<br>  }<br>)(Tod</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/js-float/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -515,7 +631,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
