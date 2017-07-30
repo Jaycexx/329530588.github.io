@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/25/js-float/index.html">
 <meta property="og:site_name" content="fokess&#39;s blog">
 <meta property="og:description" content="计算机中浮点数是用二进制存储的，很多浮点数的二进制表示是无限位的（例：0.1的二进制表示为0.00011001100110011001100110011001100110011001100110011…），所以浮点数计算过程中必定需要涉及边界（精度）选择的问题。在强类型语言中，这类问题通常会在语言内部处理掉。 在JavaScript中所有数字（包括整数）都是以64位浮点数形式储存。作为一门弱类型语">
-<meta property="og:updated_time" content="2017-05-25T03:25:27.968Z">
+<meta property="og:updated_time" content="2017-07-30T03:16:47.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js中浮点数的精度问题">
 <meta name="twitter:description" content="计算机中浮点数是用二进制存储的，很多浮点数的二进制表示是无限位的（例：0.1的二进制表示为0.00011001100110011001100110011001100110011001100110011…），所以浮点数计算过程中必定需要涉及边界（精度）选择的问题。在强类型语言中，这类问题通常会在语言内部处理掉。 在JavaScript中所有数字（包括整数）都是以64位浮点数形式储存。作为一门弱类型语">
@@ -311,8 +311,7 @@
 <p>在JavaScript中所有数字（包括整数）都是以64位浮点数形式储存。作为一门弱类型语言，JavaScript浮点数运算时没有实现精度自动处理的机制，因而会产生以下的问题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">0.1</span> + <span class="number">0.2</span> === <span class="number">0.3</span> <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
 <p>解决方案1：toFixed(digit)来设定比较的位数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="number">0.1</span> + <span class="number">0.2</span>).toFixed(<span class="number">2</span>) === <span class="number">0.3</span>.toFixed(<span class="number">2</span>) <span class="comment">//true 要注意的是toFixed返回的是String类型</span></div></pre></td></tr></table></figure></p>
 <p>但如果是未知长度的浮点数之间的比较呢？一拍脑门想到的的方法是先<code>toString()</code>再从字符串中解析出最大小数位n，再设定toFixed(n)来比较。这样做似乎把简单问题复杂化了，下面有一种更好的解决方案。</p>
-<p>解决方案2：全统一转化成字符串，去掉小数点，再转换成number类型进行比较<br>```javascript<br>function f2num(f) {<br>    return Number(f.toString().replace(‘.’, ‘’));<br>}</p>
-<p>f2num(0.1) + f2num(0.2) === f2num(0.3) //true</p>
+<p>解决方案2：全统一转化成字符串，去掉小数点，再转换成number类型进行比较<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2num</span>(<span class="params">f</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Number</span>(f.toString().replace(<span class="string">'.'</span>, <span class="string">''</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line">f2num(<span class="number">0.1</span>) + f2num(<span class="number">0.2</span>) === f2num(<span class="number">0.3</span>) <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
 
       
     </div>
