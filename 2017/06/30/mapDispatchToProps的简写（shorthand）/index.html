@@ -134,7 +134,7 @@
 
 
   <title>mapDispatchToProps的简写（shorthand） | fokess's blog</title>
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -210,7 +210,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Timeline
           </a>
         </li>
       
@@ -248,7 +248,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fokess Xu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -309,7 +309,30 @@
       
         <h1 id="mapDispatchToProps的简写（shorthand）"><a href="#mapDispatchToProps的简写（shorthand）" class="headerlink" title="mapDispatchToProps的简写（shorthand）"></a>mapDispatchToProps的简写（shorthand）</h1><p><code>connect</code>支持两种类型的参数，第一种也是最常规的就是<code>matchDispatchToProps</code>function,第二种也就是shorthand写法接收的是一个<code>Object</code></p>
 <p>两者的区别在于，传递<code>matchDispatchToProps</code>function的时候处理dispatch和actionCreator之间逻辑的主动权在开发者的手里，而后者则是直接调用<code>bindActionCreators</code>自动使用dispatch包裹你的actionCreator。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// @Component TodoList, VisibleTodoList </span></div><div class="line"><span class="comment">// @Props onTodoClick</span></div><div class="line"><span class="comment">// @ActionCreator toggleTodo</span></div><div class="line"></div><div class="line"><span class="comment">// 常规写法</span></div><div class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</div><div class="line">    onTodoClick(id) &#123;</div><div class="line">        dispatch(toggleTodo(id))</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> VisibleTodoList = connect(</div><div class="line">  mapStateToProps,</div><div class="line">  mapDispatchToProps</div><div class="line">)(TodoList);</div><div class="line"></div><div class="line"><span class="comment">// shorthand写法</span></div><div class="line"><span class="keyword">const</span> VisibleTodoList = connect(</div><div class="line">  mapStateToProps,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">onTodoClick</span>: toggleTodo</div><div class="line">  &#125;</div><div class="line">)(Tod</div></pre></td></tr></table></figure>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// @Component TodoList, VisibleTodoList </span>
+<span class="token comment" spellcheck="true">// @Props onTodoClick</span>
+<span class="token comment" spellcheck="true">// @ActionCreator toggleTodo</span>
+
+<span class="token comment" spellcheck="true">// 常规写法</span>
+<span class="token keyword">const</span> mapDispatchToProps <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token function">onTodoClick</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">toggleTodo</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> VisibleTodoList <span class="token operator">=</span> <span class="token function">connect</span><span class="token punctuation">(</span>
+  mapStateToProps<span class="token punctuation">,</span>
+  mapDispatchToProps
+<span class="token punctuation">)</span><span class="token punctuation">(</span>TodoList<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// shorthand写法</span>
+<span class="token keyword">const</span> VisibleTodoList <span class="token operator">=</span> <span class="token function">connect</span><span class="token punctuation">(</span>
+  mapStateToProps<span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    onTodoClick<span class="token punctuation">:</span> toggleTodo
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">(</span>Tod
+</code></pre>
+
       
     </div>
 
@@ -417,11 +440,11 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460"
                alt="fokess Xu" />
           <p class="site-author-name" itemprop="name">fokess Xu</p>
            
-              <p class="site-description motion-element" itemprop="description">不可描述不可描述不可描述的事情</p>
+              <p class="site-description motion-element" itemprop="description">来都来了，帮我拔棵草再走啊</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -437,6 +460,15 @@
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>

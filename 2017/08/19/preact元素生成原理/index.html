@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="preact源码分析," />
 
 
 
@@ -90,18 +90,19 @@
 
 
 
-<meta name="description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下123456789101112131415161718192021222324">
+<meta name="description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点  v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下 let items = [&apos;textA&apos;, &apos;textB&apos;, &apos;text">
+<meta name="keywords" content="preact源码分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="preact元素生成原理">
 <meta property="og:url" content="http://yoursite.com/2017/08/19/preact元素生成原理/index.html">
 <meta property="og:site_name" content="fokess&#39;s blog">
-<meta property="og:description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下123456789101112131415161718192021222324">
+<meta property="og:description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点  v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下 let items = [&apos;textA&apos;, &apos;textB&apos;, &apos;text">
 <meta property="og:image" content="https://user-images.githubusercontent.com/5203240/29486398-4c265a6c-8517-11e7-9aec-2d6fa923e81d.jpg">
 <meta property="og:image" content="https://user-images.githubusercontent.com/5203240/29486570-edeac7ee-851b-11e7-8f88-776484583449.jpg">
-<meta property="og:updated_time" content="2017-08-20T13:14:04.171Z">
+<meta property="og:updated_time" content="2017-08-21T14:07:08.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="preact元素生成原理">
-<meta name="twitter:description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下123456789101112131415161718192021222324">
+<meta name="twitter:description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点  v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下 let items = [&apos;textA&apos;, &apos;textB&apos;, &apos;text">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/5203240/29486398-4c265a6c-8517-11e7-9aec-2d6fa923e81d.jpg">
 
 
@@ -137,7 +138,7 @@
 
 
   <title>preact元素生成原理 | fokess's blog</title>
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -213,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Timeline
           </a>
         </li>
       
@@ -245,13 +246,13 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-javascript " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/19/preact元素生成原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fokess Xu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -313,12 +314,88 @@
         <p>preact元素生成主要分为两个步骤：    </p>
 <ol>
 <li>jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}    </li>
-<li>渲染vdom并插入到挂载点<h2 id="v-dom生成"><a href="#v-dom生成" class="headerlink" title="v-dom生成"></a>v-dom生成</h2>jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">let items = ['textA', 'textB', 'textC'];</div><div class="line">let list = items =&gt; items.map( text =&gt; &lt;li&gt;&#123; text &#125;&lt;/li&gt;);</div><div class="line">let foo = (</div><div class="line">    &lt;div id="foo"&gt;</div><div class="line">        zhi zhi zhi!</div><div class="line">        &lt;ul&gt;</div><div class="line">            &#123;list(items)&#125;</div><div class="line">        &lt;/ul&gt;    </div><div class="line">    &lt;/div&gt;</div><div class="line">);</div><div class="line"></div><div class="line">//**************    解析后    ************</div><div class="line">let items = ['textA', 'textB', 'textC'];</div><div class="line">let list = items =&gt; items.map(text =&gt; Object(__WEBPACK_IMPORTED_MODULE_0__preact__["a" /* h */])(</div><div class="line">    'li',</div><div class="line">    null,</div><div class="line">    text</div><div class="line">));</div><div class="line">let foo = Object(__WEBPACK_IMPORTED_MODULE_0__preact__["a" /* h */])(</div><div class="line">    'div',</div><div class="line">    &#123; id: 'foo' &#125;,</div><div class="line">    'zhi zhi zhi!',</div><div class="line">    Object(__WEBPACK_IMPORTED_MODULE_0__preact__["a" /* h */])(</div><div class="line">        'ul',</div><div class="line">        null,</div><div class="line">        list(items)</div><div class="line">    )</div><div class="line">);</div></pre></td></tr></table></figure>
-</li>
+<li>渲染vdom并插入到挂载点</li>
 </ol>
-<p>从代码可以看出，babel会解析JSX的dom数据作为参数，嵌套调用<code>__WEBPACK_IMPORTED_MODULE_0__preact__[&quot;a&quot; /*  h  */]</code>，这个函数默认是babel提供的<code>dom</code>函数，也可以通过配置<code>pragma</code>参数自定义这个函数（本文自定义了h函数），其作用是预处理输入的dom信息，返回特定格式的对象。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//***********      h函数      **************</span></div><div class="line"><span class="comment">// h函数代表 hyperscript （hypertext + javascript）</span></div><div class="line"><span class="keyword">const</span> h = <span class="function"><span class="keyword">function</span> (<span class="params">nodeName, attr, ...args</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> children = args.length ? [].concat(...args) : <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> &#123; nodeName, attr, children &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="v-dom生成"><a href="#v-dom生成" class="headerlink" title="v-dom生成"></a>v-dom生成</h2><p>jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'textA'</span><span class="token punctuation">,</span> <span class="token string">'textB'</span><span class="token punctuation">,</span> <span class="token string">'textC'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> list <span class="token operator">=</span> items <span class="token operator">=</span><span class="token operator">></span> items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span> text <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token punctuation">{</span> text <span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> foo <span class="token operator">=</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"foo"</span><span class="token operator">></span>
+        zhi zhi zhi<span class="token operator">!</span>
+        <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+            <span class="token punctuation">{</span><span class="token function">list</span><span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>    
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">/</span><span class="token comment" spellcheck="true">/**************    解析后    ************
+let items = ['textA', 'textB', 'textC'];
+let list = items => items.map(text => Object(__WEBPACK_IMPORTED_MODULE_0__preact__["a" /* h */</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span>
+    <span class="token string">'li'</span><span class="token punctuation">,</span>
+    <span class="token keyword">null</span><span class="token punctuation">,</span>
+    text
+<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> foo <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span>__WEBPACK_IMPORTED_MODULE_0__preact__<span class="token punctuation">[</span><span class="token string">"a"</span> <span class="token comment" spellcheck="true">/* h */</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span>
+    <span class="token string">'div'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'foo'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'zhi zhi zhi!'</span><span class="token punctuation">,</span>
+    <span class="token function">Object</span><span class="token punctuation">(</span>__WEBPACK_IMPORTED_MODULE_0__preact__<span class="token punctuation">[</span><span class="token string">"a"</span> <span class="token comment" spellcheck="true">/* h */</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span>
+        <span class="token string">'ul'</span><span class="token punctuation">,</span>
+        <span class="token keyword">null</span><span class="token punctuation">,</span>
+        <span class="token function">list</span><span class="token punctuation">(</span>items<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>从代码可以看出，babel会解析JSX的dom数据作为参数，嵌套调用<code>__WEBPACK_IMPORTED_MODULE_0__preact__[&quot;a&quot; /*  h  */]</code>，这个函数默认是babel提供的<code>dom</code>函数，也可以通过配置<code>pragma</code>参数自定义这个函数（本文自定义了h函数），其作用是预处理输入的dom信息，返回特定格式的对象。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//***********      h函数      **************</span>
+<span class="token comment" spellcheck="true">// h函数代表 hyperscript （hypertext + javascript）</span>
+<span class="token keyword">const</span> h <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>nodeName<span class="token punctuation">,</span> attr<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> children <span class="token operator">=</span> args<span class="token punctuation">.</span>length <span class="token operator">?</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> nodeName<span class="token punctuation">,</span> attr<span class="token punctuation">,</span> children <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>打印<code>foo</code><br><img src="https://user-images.githubusercontent.com/5203240/29486398-4c265a6c-8517-11e7-9aec-2d6fa923e81d.jpg" alt="1503143065 1"><br>到这里v-dom的雏形也就出来了。</p>
-<h2 id="渲染vdom并插入到挂载点"><a href="#渲染vdom并插入到挂载点" class="headerlink" title="渲染vdom并插入到挂载点"></a>渲染vdom并插入到挂载点</h2><p>接下来就是定义vdom解析函数了。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * @param &#123;Object&#125; vdom v-dom</div><div class="line"> * @return &#123;Object&#125; dom片段</div><div class="line"> **/</div><div class="line">const createDOM = function (vnode) &#123;</div><div class="line">    if(typeof vnode === 'string') return document.createTextNode(vnode);</div><div class="line"></div><div class="line">    let node = document.createElement(vnode.nodeName);</div><div class="line"></div><div class="line">    let attributes = vnode.attributes || &#123;&#125;;</div><div class="line">    Object.keys(attributes).forEach(key =&gt; node.setAttribute(key, attributes[key]));</div><div class="line"></div><div class="line">    (vnode.children || []).forEach(child =&gt; node.appendChild(createDOM(child)));</div><div class="line"></div><div class="line">    return node;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * @param &#123;Object&#125; vdom v-dom</div><div class="line"> * @param &#123;Object&#125; target 挂载点</div><div class="line"> **/</div><div class="line">const render = function(vdom, target) &#123;</div><div class="line">    const dom = createDOM(vdom);</div><div class="line">    target.appendChild(dom);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//*****************    再调用看看    **********************</div><div class="line">let items = ['textA', 'textB', 'textC'];</div><div class="line">let list = items =&gt; items.map( text =&gt; &lt;li&gt;&#123; text &#125;&lt;/li&gt;);</div><div class="line">let foo = (</div><div class="line">    &lt;div id="foo"&gt;</div><div class="line">        mice..zhi zhi zhi!</div><div class="line">        &lt;ul&gt;</div><div class="line">            &#123;list(items)&#125;</div><div class="line">        &lt;/ul&gt;    </div><div class="line">    &lt;/div&gt;</div><div class="line">);</div><div class="line"></div><div class="line">render(foo, document.body);</div></pre></td></tr></table></figure></p>
+<h2 id="渲染vdom并插入到挂载点"><a href="#渲染vdom并插入到挂载点" class="headerlink" title="渲染vdom并插入到挂载点"></a>渲染vdom并插入到挂载点</h2><p>接下来就是定义vdom解析函数了。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">/**
+ * @param {Object} vdom v-dom
+ * @return {Object} dom片段
+ **/</span>
+<span class="token keyword">const</span> createDOM <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>vnode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> vnode <span class="token operator">===</span> <span class="token string">'string'</span><span class="token punctuation">)</span> <span class="token keyword">return</span> document<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span>vnode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">let</span> node <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>nodeName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">let</span> attributes <span class="token operator">=</span> vnode<span class="token punctuation">.</span>attributes <span class="token operator">||</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>attributes<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>key <span class="token operator">=</span><span class="token operator">></span> node<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> attributes<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">(</span>vnode<span class="token punctuation">.</span>children <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>child <span class="token operator">=</span><span class="token operator">></span> node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span><span class="token function">createDOM</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * @param {Object} vdom v-dom
+ * @param {Object} target 挂载点
+ **/</span>
+<span class="token keyword">const</span> render <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>vdom<span class="token punctuation">,</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> dom <span class="token operator">=</span> <span class="token function">createDOM</span><span class="token punctuation">(</span>vdom<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    target<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>dom<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//*****************    再调用看看    **********************</span>
+<span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'textA'</span><span class="token punctuation">,</span> <span class="token string">'textB'</span><span class="token punctuation">,</span> <span class="token string">'textC'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> list <span class="token operator">=</span> items <span class="token operator">=</span><span class="token operator">></span> items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span> text <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token punctuation">{</span> text <span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> foo <span class="token operator">=</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"foo"</span><span class="token operator">></span>
+        mice<span class="token punctuation">.</span><span class="token punctuation">.</span>zhi zhi zhi<span class="token operator">!</span>
+        <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+            <span class="token punctuation">{</span><span class="token function">list</span><span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>    
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span>foo<span class="token punctuation">,</span> document<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 <p>输出：）</p>
 <p><img src="https://user-images.githubusercontent.com/5203240/29486570-edeac7ee-851b-11e7-8f88-776484583449.jpg" alt="1503145224 1"></p>
 <p>参考资料：    </p>
@@ -352,6 +429,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/preact源码分析/" rel="tag"># preact源码分析</a>
+          
+        </div>
       
 
       
@@ -430,11 +513,11 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460"
                alt="fokess Xu" />
           <p class="site-author-name" itemprop="name">fokess Xu</p>
            
-              <p class="site-description motion-element" itemprop="description">不可描述不可描述不可描述的事情</p>
+              <p class="site-description motion-element" itemprop="description">来都来了，帮我拔棵草再走啊</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -450,6 +533,15 @@
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>

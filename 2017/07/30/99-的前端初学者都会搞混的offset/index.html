@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="CSS," />
 
 
 
@@ -91,13 +91,14 @@
 
 
 <meta name="description" content="前端学习过程中会经常遇到offsetX、offsetLeft、clientX之类的概念，如果没有作系统性的总结，就很容易搞混。本文主要基于MDN的定义和自身的实践总结，其中有兼容性问题的属性会用()在后面注明。 话休饶舌，下面让小生来给大家梳理一下。 与offset相关的属性可以分为两类： mouse event的属性 pageX： 返回页面左上角的相对距离，包括滚动距离(IE9+)     of">
+<meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="99%的前端初学者都会搞混的offset...">
 <meta property="og:url" content="http://yoursite.com/2017/07/30/99-的前端初学者都会搞混的offset/index.html">
 <meta property="og:site_name" content="fokess&#39;s blog">
 <meta property="og:description" content="前端学习过程中会经常遇到offsetX、offsetLeft、clientX之类的概念，如果没有作系统性的总结，就很容易搞混。本文主要基于MDN的定义和自身的实践总结，其中有兼容性问题的属性会用()在后面注明。 话休饶舌，下面让小生来给大家梳理一下。 与offset相关的属性可以分为两类： mouse event的属性 pageX： 返回页面左上角的相对距离，包括滚动距离(IE9+)     of">
 <meta property="og:image" content="https://user-images.githubusercontent.com/5203240/28497992-cf112152-6fc6-11e7-8074-b6f219e06e62.png">
-<meta property="og:updated_time" content="2017-07-30T03:26:02.383Z">
+<meta property="og:updated_time" content="2017-08-21T14:04:40.855Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="99%的前端初学者都会搞混的offset...">
 <meta name="twitter:description" content="前端学习过程中会经常遇到offsetX、offsetLeft、clientX之类的概念，如果没有作系统性的总结，就很容易搞混。本文主要基于MDN的定义和自身的实践总结，其中有兼容性问题的属性会用()在后面注明。 话休饶舌，下面让小生来给大家梳理一下。 与offset相关的属性可以分为两类： mouse event的属性 pageX： 返回页面左上角的相对距离，包括滚动距离(IE9+)     of">
@@ -136,7 +137,7 @@
 
 
   <title>99%的前端初学者都会搞混的offset... | fokess's blog</title>
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -212,7 +213,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Timeline
           </a>
         </li>
       
@@ -250,7 +251,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fokess Xu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -328,11 +329,48 @@
 </ul>
 <p>文字有点绕，放个demo直观点</p>
 <p>live demo:</p>
-<script async src="//jsfiddle.net/fokess/wats4cse/embed/js,html,css,result/dark/"></script>
+<iframe width="100%" height="300" src="//jsfiddle.net/fokess/wats4cse/embedded/js,html,css,result/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>JS Bin<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"p1"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"p2"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span></div><div class="line">      lalala</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#content</span> &#123;</div><div class="line">  <span class="attribute">background</span>: green;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">top</span>: <span class="number">1000px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-id">#p1</span> &#123;</div><div class="line">  <span class="attribute">background</span>: black;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line"><span class="selector-id">#p2</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">background</span>: white;</div><div class="line">  <span class="attribute">left</span>: <span class="number">100px</span>;</div><div class="line">  <span class="attribute">top</span>: <span class="number">100px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> target = <span class="built_in">document</span>.getElementById(<span class="string">'content'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'offsetHeight:'</span>, target.offsetHeight);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'offsetWidth:'</span>, target.offsetWidth);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'offsetParent:'</span>, target.offsetParent);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'offsetTop:'</span>, target.offsetTop);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'offsetLeft:'</span>, target.offsetLeft);</div></pre></td></tr></table></figure>
+<pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>JS Bin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>p1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>p2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      lalala
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token id">#content</span> </span><span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">1000</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token id">#p1</span> </span><span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token id">#p2</span> </span><span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> white<span class="token punctuation">;</span>
+  <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> target <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'content'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'offsetHeight:'</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span>offsetHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'offsetWidth:'</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span>offsetWidth<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'offsetParent:'</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span>offsetParent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'offsetTop:'</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span>offsetTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'offsetLeft:'</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span>offsetLeft<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 <p>当把p2的<code>position:relative</code>注释掉之后，offsetParent就变成p1了。</p>
 
       
@@ -360,6 +398,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
       
 
       
@@ -442,11 +486,11 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460"
                alt="fokess Xu" />
           <p class="site-author-name" itemprop="name">fokess Xu</p>
            
-              <p class="site-description motion-element" itemprop="description">不可描述不可描述不可描述的事情</p>
+              <p class="site-description motion-element" itemprop="description">来都来了，帮我拔棵草再走啊</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -462,6 +506,15 @@
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>

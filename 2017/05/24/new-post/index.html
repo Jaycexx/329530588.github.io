@@ -90,16 +90,16 @@
 
 
 
-<meta name="description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  12345678910//举个例子let foo =">
+<meta name="description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  //举个例子 let foo = () =&amp;gt; {">
 <meta property="og:type" content="article">
 <meta property="og:title" content="惰性函数定义">
 <meta property="og:url" content="http://yoursite.com/2017/05/24/new-post/index.html">
 <meta property="og:site_name" content="fokess&#39;s blog">
-<meta property="og:description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  12345678910//举个例子let foo =">
+<meta property="og:description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  //举个例子 let foo = () =&amp;gt; {">
 <meta property="og:updated_time" content="2017-05-24T02:48:31.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="惰性函数定义">
-<meta name="twitter:description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  12345678910//举个例子let foo =">
+<meta name="twitter:description" content="惰性函数定义也称“自定义函数（self-definition function）”，当函数只需要执行一次初始化时（有点类似于单例模式）可以使用该模式。能减少程序的重复工作，提高性能。 但该模式有一些要注意的地方：  原始函数上定义的属性在”惰性定义“过程之后会全部丢失 如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。  //举个例子 let foo = () =&amp;gt; {">
 
 
 
@@ -134,7 +134,7 @@
 
 
   <title>惰性函数定义 | fokess's blog</title>
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -210,7 +210,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Timeline
           </a>
         </li>
       
@@ -248,7 +248,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fokess Xu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -313,9 +313,37 @@
 <li>原始函数上定义的属性在”惰性定义“过程之后会全部丢失</li>
 <li>如果自定义函数赋值给其他变量，那么该变量将永远不会执行“惰性定义”部分。</li>
 </ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//举个例子</span></div><div class="line"><span class="keyword">let</span> foo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'la'</span>);</div><div class="line">  foo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'lala'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">foo.la = <span class="string">"property"</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> bar = foo;</div></pre></td></tr></table></figure>
-<p>然后我们首先调用<code>bar()</code>再调用<code>foo()</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">bar(); <span class="comment">//la</span></div><div class="line">bar(); <span class="comment">//la</span></div><div class="line"><span class="built_in">console</span>.log(bar.la); <span class="comment">//property</span></div><div class="line"></div><div class="line">foo(); <span class="comment">//lala</span></div><div class="line"><span class="built_in">console</span>.log(foo.la); <span class="comment">//undefined</span></div></pre></td></tr></table></figure></p>
-<p>然后我们首先调用<code>foo()</code>再调用<code>bar()</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(bar === foo); <span class="comment">//true</span></div><div class="line">foo();  <span class="comment">//la</span></div><div class="line"><span class="built_in">console</span>.log(foo.la); <span class="comment">//undefined</span></div><div class="line">foo();  <span class="comment">//lala</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(bar === foo); <span class="comment">//false</span></div><div class="line">bar();  <span class="comment">//la</span></div><div class="line">bar();  <span class="comment">//la</span></div><div class="line"><span class="built_in">console</span>.log(bar.la); <span class="comment">//property</span></div></pre></td></tr></table></figure></p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//举个例子</span>
+<span class="token keyword">let</span> foo <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'la'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  foo <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'lala'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+foo<span class="token punctuation">.</span>la <span class="token operator">=</span> <span class="token string">"property"</span>
+
+<span class="token keyword">let</span> bar <span class="token operator">=</span> foo<span class="token punctuation">;</span>
+</code></pre>
+<p>然后我们首先调用<code>bar()</code>再调用<code>foo()</code></p>
+<pre class=" language-javascript"><code class="language-javascript">
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//la</span>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//la</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bar<span class="token punctuation">.</span>la<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//property</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//lala</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>la<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//undefined</span>
+</code></pre>
+<p>然后我们首先调用<code>foo()</code>再调用<code>bar()</code></p>
+<pre class=" language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bar <span class="token operator">===</span> foo<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//la</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>la<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//undefined</span>
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//lala</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bar <span class="token operator">===</span> foo<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//false</span>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//la</span>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//la</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bar<span class="token punctuation">.</span>la<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//property</span>
+</code></pre>
 <p>分析上面的例子我们可以知道，<code>bar()</code>内的函数指针指向<code>foo()</code>的原始函数，所以会一直执行原始函数部分，在执行原始函数的过程中又会不断地重写<code>foo()</code>的函数指针。反过来，<code>foo()</code>自身“惰性定义”并不会影响<code>bar()</code>的函数指针，所以导致了一些看似迷惑的现象。</p>
 
       
@@ -412,11 +440,11 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460"
                alt="fokess Xu" />
           <p class="site-author-name" itemprop="name">fokess Xu</p>
            
-              <p class="site-description motion-element" itemprop="description">不可描述不可描述不可描述的事情</p>
+              <p class="site-description motion-element" itemprop="description">来都来了，帮我拔棵草再走啊</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -432,6 +460,15 @@
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>

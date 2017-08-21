@@ -134,7 +134,7 @@
 
 
   <title>js中浮点数的精度问题 | fokess's blog</title>
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -210,7 +210,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Timeline
           </a>
         </li>
       
@@ -248,7 +248,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fokess Xu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -308,10 +308,20 @@
 
       
         <p>计算机中浮点数是用二进制存储的，很多浮点数的二进制表示是无限位的（例：0.1的二进制表示为0.00011001100110011001100110011001100110011001100110011…），所以浮点数计算过程中必定需要涉及边界（精度）选择的问题。在强类型语言中，这类问题通常会在语言内部处理掉。</p>
-<p>在JavaScript中所有数字（包括整数）都是以64位浮点数形式储存。作为一门弱类型语言，JavaScript浮点数运算时没有实现精度自动处理的机制，因而会产生以下的问题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">0.1</span> + <span class="number">0.2</span> === <span class="number">0.3</span> <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
-<p>解决方案1：toFixed(digit)来设定比较的位数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="number">0.1</span> + <span class="number">0.2</span>).toFixed(<span class="number">2</span>) === <span class="number">0.3</span>.toFixed(<span class="number">2</span>) <span class="comment">//true 要注意的是toFixed返回的是String类型</span></div></pre></td></tr></table></figure></p>
+<p>在JavaScript中所有数字（包括整数）都是以64位浮点数形式储存。作为一门弱类型语言，JavaScript浮点数运算时没有实现精度自动处理的机制，因而会产生以下的问题：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.2</span> <span class="token operator">===</span> <span class="token number">0.3</span> <span class="token comment" spellcheck="true">//false</span>
+</code></pre>
+<p>解决方案1：toFixed(digit)来设定比较的位数。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token number">0.3</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//true 要注意的是toFixed返回的是String类型</span>
+</code></pre>
 <p>但如果是未知长度的浮点数之间的比较呢？一拍脑门想到的的方法是先<code>toString()</code>再从字符串中解析出最大小数位n，再设定toFixed(n)来比较。这样做似乎把简单问题复杂化了，下面有一种更好的解决方案。</p>
-<p>解决方案2：全统一转化成字符串，去掉小数点，再转换成number类型进行比较<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2num</span>(<span class="params">f</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Number</span>(f.toString().replace(<span class="string">'.'</span>, <span class="string">''</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line">f2num(<span class="number">0.1</span>) + f2num(<span class="number">0.2</span>) === f2num(<span class="number">0.3</span>) <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>解决方案2：全统一转化成字符串，去掉小数点，再转换成number类型进行比较</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">f2num</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">Number</span><span class="token punctuation">(</span>f<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">f2num</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">f2num</span><span class="token punctuation">(</span><span class="token number">0.2</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token function">f2num</span><span class="token punctuation">(</span><span class="token number">0.3</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//true</span>
+</code></pre>
 
       
     </div>
@@ -411,11 +421,11 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="https://avatars3.githubusercontent.com/u/5203240?v=4&s=460"
                alt="fokess Xu" />
           <p class="site-author-name" itemprop="name">fokess Xu</p>
            
-              <p class="site-description motion-element" itemprop="description">不可描述不可描述不可描述的事情</p>
+              <p class="site-description motion-element" itemprop="description">来都来了，帮我拔棵草再走啊</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -431,6 +441,15 @@
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>
