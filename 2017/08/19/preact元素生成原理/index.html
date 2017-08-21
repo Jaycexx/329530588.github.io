@@ -99,7 +99,7 @@
 <meta property="og:description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点  v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下 let items = [&apos;textA&apos;, &apos;textB&apos;, &apos;text">
 <meta property="og:image" content="https://user-images.githubusercontent.com/5203240/29486398-4c265a6c-8517-11e7-9aec-2d6fa923e81d.jpg">
 <meta property="og:image" content="https://user-images.githubusercontent.com/5203240/29486570-edeac7ee-851b-11e7-8f88-776484583449.jpg">
-<meta property="og:updated_time" content="2017-08-21T14:07:08.613Z">
+<meta property="og:updated_time" content="2017-08-21T14:18:15.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="preact元素生成原理">
 <meta name="twitter:description" content="preact元素生成主要分为两个步骤：      jsx 解析为特定格式的 Object（虚拟dom）其格式为：{nodename, attribute, children}     渲染vdom并插入到挂载点  v-dom生成jsx解析借助了babel-plugin-transform-react-jsx，具体转化代码如下 let items = [&apos;textA&apos;, &apos;textB&apos;, &apos;text">
@@ -328,9 +328,9 @@
     <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token operator">/</span><span class="token comment" spellcheck="true">/**************    解析后    ************
-let items = ['textA', 'textB', 'textC'];
-let list = items => items.map(text => Object(__WEBPACK_IMPORTED_MODULE_0__preact__["a" /* h */</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span>
+<span class="token operator">/</span><span class="token comment" spellcheck="true">/**************    解析后    ************/</span><span class="token operator">/</span>
+<span class="token keyword">let</span> items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'textA'</span><span class="token punctuation">,</span> <span class="token string">'textB'</span><span class="token punctuation">,</span> <span class="token string">'textC'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> list <span class="token operator">=</span> items <span class="token operator">=</span><span class="token operator">></span> items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>text <span class="token operator">=</span><span class="token operator">></span> <span class="token function">Object</span><span class="token punctuation">(</span>__WEBPACK_IMPORTED_MODULE_0__preact__<span class="token punctuation">[</span><span class="token string">"a"</span> <span class="token comment" spellcheck="true">/* h */</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span>
     <span class="token string">'li'</span><span class="token punctuation">,</span>
     <span class="token keyword">null</span><span class="token punctuation">,</span>
     text
