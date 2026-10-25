@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>情侣飞行棋 V1.0 · 双人版</title>
+  <link rel="icon" type="image/png" href="./icon.png" />
+  <style>
+    :root {
+      --male: #3b82f6;
+      --female: #f59e0b;
+      --line: rgba(255, 255, 255, 0.14);
+      --text: #f5f5f5;
+      --muted: #a3a3a3;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #0a0a0b;
+      color: var(--text);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .app {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px 8px;
+      padding-top: max(12px, env(safe-area-inset-top));
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ghost {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .ghost:active { transform: scale(0.97); }
+
+    .board-wrap {
+      position: relative;
+      min-height: 0;
+      margin: 0 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #111;
+      border: 1px solid var(--line);
+    }
+
+    .board {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      background: center / 100% 100% no-repeat url("./assets/couple-flying-chess-board.jpg");
+      touch-action: none;
+    }
+
+    .piece {
+      position: absolute;
+      width: 7.5%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+      display: grid;
+      place-items: center;
+      font-size: clamp(10px, 2.4vw, 14px);
+      font-weight: 800;
+      color: #fff;
+      cursor: grab;
+      user-select: none;
+      z-index: 3;
+    }
+
+    .piece.male { background: var(--male); }
+    .piece.female { background: var(--female); color: #1a1200; }
+    .piece.dragging {
+      cursor: grabbing;
+      z-index: 6;
+      filter: brightness(1.1);
+    }
+
+    .dock {
+      padding: 12px 14px max(16px, env(safe-area-inset-bottom));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .legend {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .legend.male i { background: var(--male); }
+    .legend.female i { background: var(--female); }
+
+    .dice {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #f8f8f8, #d4d4d4);
+      color: #111;
+      font-size: 30px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    .dice:active { transform: scale(0.96); }
+    .dice.rolling { animation: shake 0.12s linear infinite; }
+
+    @keyframes shake {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(2px, -2px) rotate(-6deg); }
+      50% { transform: translate(-2px, 1px) rotate(5deg); }
+      75% { transform: translate(1px, 2px) rotate(-3deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <h1>情侣飞行棋 V1.0</h1>
+        <p>掷骰子看点数，自己拖动棋子</p>
+      </div>
+      <div class="top-actions">
+        <a class="ghost" href="./">返回</a>
+        <button class="ghost" type="button" id="btn-reset">复位</button>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <div class="board" id="board">
+        <div class="piece male" id="piece-male" style="left:14%; top:14%;">男</div>
+        <div class="piece female" id="piece-female" style="left:86%; top:86%;">女</div>
+      </div>
+    </div>
+
+    <div class="dock">
+      <div class="legend male"><i></i>男</div>
+      <button class="dice" type="button" id="dice" aria-label="掷骰子">?</button>
+      <div class="legend female"><i></i>女</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var START = {
+        male: { x: 14, y: 14 },
+        female: { x: 86, y: 86 }
+      };
+
+      var rolling = false;
+      var drag = null;
+      var board = document.getElementById("board");
+      var dice = document.getElementById("dice");
+      var pieces = {
+        male: document.getElementById("piece-male"),
+        female: document.getElementById("piece-female")
+      };
+
+      function clamp(n, min, max) {
+        return Math.max(min, Math.min(max, n));
+      }
+
+      function place(player, x, y) {
+        pieces[player].style.left = clamp(x, 3, 97) + "%";
+        pieces[player].style.top = clamp(y, 3, 97) + "%";
+      }
+
+      function pointFromEvent(e) {
+        var rect = board.getBoundingClientRect();
+        var t = e.touches && e.touches[0];
+        var x = t ? t.clientX : e.clientX;
+        var y = t ? t.clientY : e.clientY;
+        return {
+          x: ((x - rect.left) / rect.width) * 100,
+          y: ((y - rect.top) / rect.height) * 100
+        };
+      }
+
+      Object.keys(pieces).forEach(function (player) {
+        var el = pieces[player];
+        el.addEventListener("pointerdown", function (e) {
+          e.preventDefault();
+          el.setPointerCapture(e.pointerId);
+          drag = player;
+          el.classList.add("dragging");
+          var p = pointFromEvent(e);
+          place(player, p.x, p.y);
+        });
+        el.addEventListener("pointermove", function (e) {
+          if (drag !== player) return;
+          e.preventDefault();
+          var p = pointFromEvent(e);
+          place(player, p.x, p.y);
+        });
+        function end() {
+          if (drag !== player) return;
+          el.classList.remove("dragging");
+          drag = null;
+        }
+        el.addEventListener("pointerup", end);
+        el.addEventListener("pointercancel", end);
+      });
+
+      dice.addEventListener("click", function () {
+        if (rolling) return;
+        rolling = true;
+        dice.classList.add("rolling");
+        var ticks = 0;
+        var timer = setInterval(function () {
+          dice.textContent = String(1 + Math.floor(Math.random() * 6));
+          ticks += 1;
+          if (ticks >= 10) {
+            clearInterval(timer);
+            var n = 1 + Math.floor(Math.random() * 6);
+            dice.textContent = String(n);
+            dice.classList.remove("rolling");
+            rolling = false;
+            if (navigator.vibrate) navigator.vibrate(18);
+          }
+        }, 45);
+      });
+
+      document.getElementById("btn-reset").addEventListener("click", function () {
+        place("male", START.male.x, START.male.y);
+        place("female", START.female.x, START.female.y);
+        dice.textContent = "?";
+      });
+
+      function fitBoard() {
+        var wrap = board.parentElement.getBoundingClientRect();
+        var ratio = 1855 / 2048;
+        var bw, bh;
+        if (wrap.width / wrap.height > ratio) {
+          bh = wrap.height;
+          bw = wrap.height * ratio;
+        } else {
+          bw = wrap.width;
+          bh = wrap.width / ratio;
+        }
+        board.style.width = bw + "px";
+        board.style.height = bh + "px";
+      }
+
+      window.addEventListener("resize", fitBoard);
+      fitBoard();
+    })();
+  </script>
+</body>
+</html>
