@@ -13,35 +13,40 @@
       --line: rgba(255, 255, 255, 0.14);
       --text: #f5f5f5;
       --muted: #a3a3a3;
+      --dock: 96px;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     html, body {
       margin: 0;
-      height: 100%;
+      min-height: 100%;
       background: #0a0a0b;
       color: var(--text);
       font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      overflow: hidden;
-      touch-action: none;
+    }
+
+    body {
+      padding-bottom: calc(var(--dock) + env(safe-area-inset-bottom));
     }
 
     .app {
-      height: 100%;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      max-width: 560px;
+      max-width: 480px;
       margin: 0 auto;
     }
 
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 12px 14px 8px;
+      padding: 12px 14px 10px;
       padding-top: max(12px, env(safe-area-inset-top));
+      background: rgba(10, 10, 11, 0.92);
+      backdrop-filter: blur(8px);
     }
 
     .brand h1 {
@@ -75,53 +80,37 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-width: 36px;
     }
 
     .ghost:active { transform: scale(0.97); }
 
-    .zoom-bar {
-      display: flex;
-      gap: 6px;
-      align-items: center;
+    .board-stage {
+      padding: 0 10px 12px;
     }
-
-    .zoom-bar .pct {
-      min-width: 44px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .board-wrap {
-      position: relative;
-      min-height: 0;
-      margin: 0 10px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #111;
-      border: 1px solid var(--line);
-      cursor: grab;
-      touch-action: none;
-    }
-
-    .board-wrap.panning { cursor: grabbing; }
 
     .board {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform-origin: 0 0;
-      will-change: transform;
-      background: center / 100% 100% no-repeat url("./assets/couple-flying-chess-board.jpg");
-      touch-action: none;
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #111;
+      line-height: 0;
+    }
+
+    .board img {
+      display: block;
+      width: 100%;
+      height: auto;
+      vertical-align: top;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
     }
 
     .piece {
       position: absolute;
-      width: 7.5%;
+      width: 8.5%;
       aspect-ratio: 1;
       border-radius: 50%;
       transform: translate(-50%, -50%);
@@ -129,13 +118,14 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.45);
       display: grid;
       place-items: center;
-      font-size: clamp(10px, 2.4vw, 14px);
+      font-size: clamp(11px, 3.2vw, 15px);
       font-weight: 800;
       color: #fff;
       cursor: grab;
       user-select: none;
       z-index: 3;
       touch-action: none;
+      line-height: 1;
     }
 
     .piece.male { background: var(--male); }
@@ -147,11 +137,19 @@
     }
 
     .dock {
-      padding: 12px 14px max(16px, env(safe-area-inset-bottom));
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      padding: 10px 14px max(14px, env(safe-area-inset-bottom));
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 18px;
+      background: rgba(10, 10, 11, 0.94);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(8px);
     }
 
     .legend {
@@ -204,31 +202,33 @@
     <div class="topbar">
       <div class="brand">
         <h1>情侣飞行棋 V1.0</h1>
-        <p>掷骰 · 拖棋 · 双指/滚轮缩放</p>
+        <p>竖屏整图 · 掷骰后自己拖棋子</p>
       </div>
       <div class="top-actions">
-        <div class="zoom-bar">
-          <button class="ghost" type="button" id="btn-zoom-out" aria-label="缩小">−</button>
-          <span class="pct" id="zoom-pct">100%</span>
-          <button class="ghost" type="button" id="btn-zoom-in" aria-label="放大">+</button>
-        </div>
         <a class="ghost" href="./">返回</a>
         <button class="ghost" type="button" id="btn-reset">复位</button>
       </div>
     </div>
 
-    <div class="board-wrap" id="board-wrap">
+    <div class="board-stage">
       <div class="board" id="board">
+        <img
+          src="./assets/couple-flying-chess-board.jpg"
+          alt="情侣飞行棋棋盘"
+          width="1855"
+          height="2048"
+          draggable="false"
+        />
         <div class="piece male" id="piece-male" style="left:14%; top:14%;">男</div>
         <div class="piece female" id="piece-female" style="left:86%; top:86%;">女</div>
       </div>
     </div>
+  </div>
 
-    <div class="dock">
-      <div class="legend male"><i></i>男</div>
-      <button class="dice" type="button" id="dice" aria-label="掷骰子">?</button>
-      <div class="legend female"><i></i>女</div>
-    </div>
+  <div class="dock">
+    <div class="legend male"><i></i>男</div>
+    <button class="dice" type="button" id="dice" aria-label="掷骰子">?</button>
+    <div class="legend female"><i></i>女</div>
   </div>
 
   <script>
@@ -237,24 +237,11 @@
         male: { x: 14, y: 14 },
         female: { x: 86, y: 86 }
       };
-      var MIN_SCALE = 1;
-      var MAX_SCALE = 4;
-      var RATIO = 1855 / 2048;
 
       var rolling = false;
-      var dragPiece = null;
-      var pan = null;
-      var pinch = null;
-      var baseW = 0;
-      var baseH = 0;
-      var scale = 1;
-      var tx = 0;
-      var ty = 0;
-
-      var wrap = document.getElementById("board-wrap");
+      var drag = null;
       var board = document.getElementById("board");
       var dice = document.getElementById("dice");
-      var zoomPct = document.getElementById("zoom-pct");
       var pieces = {
         male: document.getElementById("piece-male"),
         female: document.getElementById("piece-female")
@@ -269,238 +256,40 @@
         pieces[player].style.top = clamp(y, 3, 97) + "%";
       }
 
-      function applyTransform() {
-        clampPan();
-        board.style.transform =
-          "translate(" + tx + "px, " + ty + "px) scale(" + scale + ")";
-        zoomPct.textContent = Math.round(scale * 100) + "%";
-      }
-
-      function clampPan() {
-        var wr = wrap.getBoundingClientRect();
-        var w = baseW * scale;
-        var h = baseH * scale;
-        if (w <= wr.width) {
-          tx = (wr.width - w) / 2;
-        } else {
-          tx = clamp(tx, wr.width - w, 0);
-        }
-        if (h <= wr.height) {
-          ty = (wr.height - h) / 2;
-        } else {
-          ty = clamp(ty, wr.height - h, 0);
-        }
-      }
-
-      function fitBoard() {
-        var wr = wrap.getBoundingClientRect();
-        if (wr.width / wr.height > RATIO) {
-          baseH = wr.height;
-          baseW = wr.height * RATIO;
-        } else {
-          baseW = wr.width;
-          baseH = wr.width / RATIO;
-        }
-        board.style.width = baseW + "px";
-        board.style.height = baseH + "px";
-        if (scale <= 1.01) {
-          scale = 1;
-          tx = (wr.width - baseW) / 2;
-          ty = (wr.height - baseH) / 2;
-        }
-        applyTransform();
-      }
-
-      function zoomAt(nextScale, cx, cy) {
-        var wr = wrap.getBoundingClientRect();
-        var localX = cx - wr.left;
-        var localY = cy - wr.top;
-        var next = clamp(nextScale, MIN_SCALE, MAX_SCALE);
-        if (Math.abs(next - scale) < 0.001) return;
-        var bx = (localX - tx) / scale;
-        var by = (localY - ty) / scale;
-        scale = next;
-        tx = localX - bx * scale;
-        ty = localY - by * scale;
-        applyTransform();
-      }
-
-      function pointOnBoard(clientX, clientY) {
-        var wr = wrap.getBoundingClientRect();
-        var x = ((clientX - wr.left - tx) / (baseW * scale)) * 100;
-        var y = ((clientY - wr.top - ty) / (baseH * scale)) * 100;
-        return { x: x, y: y };
-      }
-
-      function clientFromEvent(e) {
-        if (e.touches && e.touches[0]) {
-          return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }
-        return { x: e.clientX, y: e.clientY };
-      }
-
-      function pinchDistance(touches) {
-        var dx = touches[0].clientX - touches[1].clientX;
-        var dy = touches[0].clientY - touches[1].clientY;
-        return Math.hypot(dx, dy);
-      }
-
-      function pinchCenter(touches) {
+      function pointFromEvent(e) {
+        var rect = board.getBoundingClientRect();
+        var t = e.touches && e.touches[0];
+        var x = t ? t.clientX : e.clientX;
+        var y = t ? t.clientY : e.clientY;
         return {
-          x: (touches[0].clientX + touches[1].clientX) / 2,
-          y: (touches[0].clientY + touches[1].clientY) / 2
+          x: ((x - rect.left) / rect.width) * 100,
+          y: ((y - rect.top) / rect.height) * 100
         };
       }
 
       Object.keys(pieces).forEach(function (player) {
         var el = pieces[player];
         el.addEventListener("pointerdown", function (e) {
-          if (e.pointerType === "touch" && e.isPrimary === false) return;
           e.preventDefault();
-          e.stopPropagation();
           el.setPointerCapture(e.pointerId);
-          dragPiece = player;
-          pan = null;
+          drag = player;
           el.classList.add("dragging");
-          var p = pointOnBoard(e.clientX, e.clientY);
+          var p = pointFromEvent(e);
           place(player, p.x, p.y);
         });
         el.addEventListener("pointermove", function (e) {
-          if (dragPiece !== player) return;
+          if (drag !== player) return;
           e.preventDefault();
-          var p = pointOnBoard(e.clientX, e.clientY);
+          var p = pointFromEvent(e);
           place(player, p.x, p.y);
         });
         function end() {
-          if (dragPiece !== player) return;
+          if (drag !== player) return;
           el.classList.remove("dragging");
-          dragPiece = null;
+          drag = null;
         }
         el.addEventListener("pointerup", end);
         el.addEventListener("pointercancel", end);
-      });
-
-      wrap.addEventListener("pointerdown", function (e) {
-        if (dragPiece || e.target.classList.contains("piece")) return;
-        if (e.pointerType === "touch") return;
-        e.preventDefault();
-        pan = {
-          id: e.pointerId,
-          x: e.clientX,
-          y: e.clientY,
-          tx: tx,
-          ty: ty
-        };
-        wrap.classList.add("panning");
-        wrap.setPointerCapture(e.pointerId);
-      });
-
-      wrap.addEventListener("pointermove", function (e) {
-        if (!pan || pan.id !== e.pointerId) return;
-        e.preventDefault();
-        tx = pan.tx + (e.clientX - pan.x);
-        ty = pan.ty + (e.clientY - pan.y);
-        applyTransform();
-      });
-
-      function endPan(e) {
-        if (!pan || (e && pan.id !== e.pointerId)) return;
-        pan = null;
-        wrap.classList.remove("panning");
-      }
-      wrap.addEventListener("pointerup", endPan);
-      wrap.addEventListener("pointercancel", endPan);
-
-      wrap.addEventListener(
-        "wheel",
-        function (e) {
-          e.preventDefault();
-          var factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-          zoomAt(scale * factor, e.clientX, e.clientY);
-        },
-        { passive: false }
-      );
-
-      wrap.addEventListener(
-        "touchstart",
-        function (e) {
-          if (e.touches.length === 2) {
-            e.preventDefault();
-            dragPiece = null;
-            pan = null;
-            pinch = {
-              dist: pinchDistance(e.touches),
-              scale: scale,
-              center: pinchCenter(e.touches)
-            };
-            return;
-          }
-          if (e.touches.length === 1 && !dragPiece) {
-            var t = e.touches[0];
-            if (e.target.classList.contains("piece")) return;
-            pan = {
-              id: "touch",
-              x: t.clientX,
-              y: t.clientY,
-              tx: tx,
-              ty: ty
-            };
-            wrap.classList.add("panning");
-          }
-        },
-        { passive: false }
-      );
-
-      wrap.addEventListener(
-        "touchmove",
-        function (e) {
-          if (e.touches.length === 2 && pinch) {
-            e.preventDefault();
-            var dist = pinchDistance(e.touches);
-            var center = pinchCenter(e.touches);
-            zoomAt(pinch.scale * (dist / pinch.dist), center.x, center.y);
-            return;
-          }
-          if (e.touches.length === 1 && pan && pan.id === "touch" && !dragPiece) {
-            e.preventDefault();
-            var t = e.touches[0];
-            tx = pan.tx + (t.clientX - pan.x);
-            ty = pan.ty + (t.clientY - pan.y);
-            applyTransform();
-          }
-        },
-        { passive: false }
-      );
-
-      wrap.addEventListener("touchend", function (e) {
-        if (e.touches.length < 2) pinch = null;
-        if (e.touches.length === 0) {
-          pan = null;
-          wrap.classList.remove("panning");
-        } else if (e.touches.length === 1 && !dragPiece) {
-          var t = e.touches[0];
-          pan = {
-            id: "touch",
-            x: t.clientX,
-            y: t.clientY,
-            tx: tx,
-            ty: ty
-          };
-        }
-      });
-      wrap.addEventListener("touchcancel", function () {
-        pinch = null;
-        pan = null;
-        wrap.classList.remove("panning");
-      });
-
-      document.getElementById("btn-zoom-in").addEventListener("click", function () {
-        var wr = wrap.getBoundingClientRect();
-        zoomAt(scale * 1.25, wr.left + wr.width / 2, wr.top + wr.height / 2);
-      });
-      document.getElementById("btn-zoom-out").addEventListener("click", function () {
-        var wr = wrap.getBoundingClientRect();
-        zoomAt(scale / 1.25, wr.left + wr.width / 2, wr.top + wr.height / 2);
       });
 
       dice.addEventListener("click", function () {
@@ -525,12 +314,7 @@
         place("male", START.male.x, START.male.y);
         place("female", START.female.x, START.female.y);
         dice.textContent = "?";
-        scale = 1;
-        fitBoard();
       });
-
-      window.addEventListener("resize", fitBoard);
-      fitBoard();
     })();
   </script>
 </body>
